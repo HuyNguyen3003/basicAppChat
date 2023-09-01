@@ -1,0 +1,4 @@
++ nextJs
++ tailwind
++ redux
++ localStore
