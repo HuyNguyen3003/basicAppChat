@@ -8,6 +8,7 @@ const initWebRoutes = require("./v1/router");
 
 //init db
 //require("./v1/init.mongodb");
+//require("./v1/init.rabbitmq");
 
 // app.use(helmet());
 // app.use(morgan("combined"));

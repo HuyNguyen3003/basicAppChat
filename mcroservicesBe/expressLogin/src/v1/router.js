@@ -5,9 +5,8 @@ const userController = require("./controllers/userController");
 let initWebRoutes = (app) => {
   //login
   router.get("/checkserver", userController.checkserver);
-  router.post("/create", userController.create);
-  router.post("/login", userController.login);
-  router.post("/update", userController.update);
+  router.post("/senddata", userController.sendData);
+  router.post("/readdata", userController.readData);
 
   return app.use("/", router);
 };

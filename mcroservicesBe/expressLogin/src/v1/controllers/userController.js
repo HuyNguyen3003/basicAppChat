@@ -1,16 +1,18 @@
 let adminServices = require("../services/userServices");
+const { get } = require("../services/rabbitmq");
 
 let checkserver = async (req, res) => {
   try {
+    get("nodejsSend");
     return res.json("server ok");
   } catch (e) {
     console.log(e);
   }
 };
-let create = async (req, res) => {
+let sendData = async (req, res) => {
   try {
     const data = req.body;
-    const respone = await adminServices.create(data);
+    const respone = await adminServices.sendData(data);
     if (respone) return res.json(respone);
     else return res.json(false);
   } catch (e) {
@@ -18,22 +20,11 @@ let create = async (req, res) => {
   }
 };
 
-let login = async (req, res) => {
+let readData = async (req, res) => {
   try {
     const data = req.body;
 
-    const respone = await adminServices.login(data);
-    if (respone) return res.json(respone);
-    else return res.json(false);
-  } catch (e) {
-    console.log(e);
-  }
-};
-let update = async (req, res) => {
-  try {
-    const data = req.body;
-
-    const respone = await adminServices.update(data);
+    const respone = await adminServices.readData(data);
     if (respone) return res.json(respone);
     else return res.json(false);
   } catch (e) {
@@ -43,7 +34,6 @@ let update = async (req, res) => {
 
 module.exports = {
   checkserver,
-  create,
-  login,
-  update,
+  sendData,
+  readData,
 };
