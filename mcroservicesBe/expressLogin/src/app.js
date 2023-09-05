@@ -7,7 +7,7 @@ const cors = require("cors");
 const initWebRoutes = require("./v1/router");
 
 //init db
-require("./v1/init.mongodb");
+//require("./v1/init.mongodb");
 
 // app.use(helmet());
 // app.use(morgan("combined"));
