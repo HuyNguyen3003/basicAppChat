@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.002.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "aspUpdate", "aspUpdate.csproj", "{D9AA0F80-A944-4D3F-B2F8-31C9C1B81691}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D9AA0F80-A944-4D3F-B2F8-31C9C1B81691}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D9AA0F80-A944-4D3F-B2F8-31C9C1B81691}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D9AA0F80-A944-4D3F-B2F8-31C9C1B81691}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D9AA0F80-A944-4D3F-B2F8-31C9C1B81691}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {419D566D-D6D7-42C3-8D20-003AB0871E0F}
+	EndGlobalSection
+EndGlobal
