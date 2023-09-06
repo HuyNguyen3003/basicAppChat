@@ -1,4 +1,10 @@
+using MongoExample.Models;
+using MongoExample.Services;
+
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.Configure<mongoDBSetting>(builder.Configuration.GetSection("MongoDB"));
+builder.Services.AddSingleton<MongoDBServices>();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
