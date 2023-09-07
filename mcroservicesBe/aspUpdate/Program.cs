@@ -1,4 +1,4 @@
-
+using Microsoft.Extensions.Options;
 using UserApi.Services;
 using UsersApi.Models;
 var builder = WebApplication.CreateBuilder(args);
@@ -8,12 +8,24 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.Configure<UserDatabaseSettings>(builder.Configuration.GetSection("MongoDB"));
 builder.Services.AddSingleton<UsersService>();
 
-builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+
+
+
+
+
 
 var app = builder.Build();
+
+
+//mesqueue
+var rabbitMQReceiver = new RabbitMQReceiver("localhost", "nodejsSend");
+rabbitMQReceiver.StartListening();
+//
+
+
+builder.Services.AddControllers();
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

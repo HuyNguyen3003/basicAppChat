@@ -3,7 +3,7 @@ const { send } = require("./rabbitmq");
 let sendData = async (data) => {
   return new Promise(async (resolve, reject) => {
     try {
-      send("nodejsSend", JSON.stringify(data.msg));
+      send("nodejsSend", JSON.stringify(data));
       resolve(true);
     } catch (e) {
       reject(e);
@@ -14,7 +14,7 @@ let sendData = async (data) => {
 let readData = async (data) => {
   return new Promise(async (resolve, reject) => {
     try {
-      resolve(res);
+      resolve(true);
     } catch (e) {
       reject(e);
     }

@@ -3,7 +3,7 @@ let adminServices = require("../services/userServices");
 
 let checkserver = async (req, res) => {
   try {
-    //  get("nodejsSend");
+    // get("nodejsSend");
     return res.json("server ok");
   } catch (e) {
     console.log(e);
