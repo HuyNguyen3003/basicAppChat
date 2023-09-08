@@ -1,4 +1,4 @@
-using Microsoft.Extensions.Options;
+
 using UserApi.Services;
 using UsersApi.Models;
 var builder = WebApplication.CreateBuilder(args);
@@ -6,8 +6,12 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 builder.Services.Configure<UserDatabaseSettings>(builder.Configuration.GetSection("MongoDB"));
-builder.Services.AddSingleton<UsersService>();
+builder.Services.Configure<UserRabbitmqSettings>(builder.Configuration.GetSection("RabbitMQ"));
 
+
+
+builder.Services.AddSingleton<UsersService>();
+builder.Services.AddSingleton<RabbitMQReceiver>();
 
 
 
@@ -18,9 +22,12 @@ var app = builder.Build();
 
 
 //mesqueue
-var rabbitMQReceiver = new RabbitMQReceiver("localhost", "nodejsSend");
-rabbitMQReceiver.StartListening();
-//
+//var usersService = app.Services.GetRequiredService<UsersService>();
+ var rabbitServices = app.Services.GetRequiredService<RabbitMQReceiver>();
+
+// var rabbitMQReceiver = new RabbitMQReceiver(rabbitServices,usersService);
+rabbitServices.StartListening();
+
 
 
 builder.Services.AddControllers();

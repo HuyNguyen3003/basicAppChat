@@ -8,6 +8,7 @@ module.exports.send = async (nameQueue, msg) => {
     const channel = await connection.createChannel();
     await channel.assertQueue(nameQueue, {
       durable: false,
+      autoDelete: true,
     });
 
     console.log("Connected to RabbitMQ");

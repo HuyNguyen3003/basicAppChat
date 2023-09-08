@@ -1,26 +1,30 @@
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
-using System;
 using System.Text;
 using UserApi.Models;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using UsersApi.Models;
+using Microsoft.Extensions.Options;
+
+
+namespace UserApi.Services;
 public class RabbitMQReceiver
 {
-    private readonly string _hostName;
-    private readonly string _queueName;
+   private readonly UserRabbitmqSettings _rabbitmqSettings;
+    private readonly  UsersService _userService;
 
-    public RabbitMQReceiver(string hostName, string queueName)
+    public RabbitMQReceiver( IOptions<UserRabbitmqSettings> rabbitmqSettings, UsersService userService)
     {
-        _hostName = hostName;
-        _queueName = queueName;
+        _rabbitmqSettings = rabbitmqSettings.Value;
+        _userService = userService;
     }
 
     public void StartListening()
     {
+        
         var factory = new ConnectionFactory
         {
-            HostName = _hostName,
+            HostName = _rabbitmqSettings.HostName,
             UserName = "guest",     // Thay đổi tên đăng nhập và mật khẩu nếu cần
             Password = "guest"
         };
@@ -28,18 +32,19 @@ public class RabbitMQReceiver
         using var connection = factory.CreateConnection();
         using var channel = connection.CreateModel();
 
-        channel.QueueDeclare(queue: _queueName,
+        channel.QueueDeclare(queue: _rabbitmqSettings.QueueName,
                             durable: false,
                             exclusive: false,
                             autoDelete: true,
                             arguments: null);
 
         var consumer = new EventingBasicConsumer(channel);
-        consumer.Received += (model, ea) =>
+        consumer.Received += async (model, ea) =>
         {
             var body = ea.Body.ToArray();
             var message = Encoding.UTF8.GetString(body);
             JObject jsonObject = JObject.Parse(message);
+            string type = jsonObject["type"].ToString();
             string username = jsonObject["msg"]["username"].ToString();
             string password = jsonObject["msg"]["password"].ToString();
             string email = jsonObject["msg"]["email"].ToString();
@@ -53,11 +58,12 @@ public class RabbitMQReceiver
                         codeRoom = codeRoom
                     };
 
+       if(type == "creat")  await _userService.CreateAsync(newUser);
            
-            Console.WriteLine(newUser.username);
+            Console.WriteLine(type);
         };
 
-        channel.BasicConsume(queue: _queueName,
+        channel.BasicConsume(queue: _rabbitmqSettings.QueueName,
                              autoAck: true,
                              consumer: consumer);
 
