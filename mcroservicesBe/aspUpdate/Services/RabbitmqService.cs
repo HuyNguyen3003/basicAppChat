@@ -5,6 +5,10 @@ using UserApi.Models;
 using Newtonsoft.Json.Linq;
 using UsersApi.Models;
 using Microsoft.Extensions.Options;
+using MongoDB.Bson;
+using System.Linq;
+using MongoDB.Bson.Serialization;
+using MongoDB.Bson.IO;
 
 
 namespace UserApi.Services;
@@ -49,19 +53,80 @@ public class RabbitMQReceiver
             string password = jsonObject["msg"]["password"].ToString();
             string email = jsonObject["msg"]["email"].ToString();
             string codeRoom = jsonObject["msg"]["codeRoom"].ToString();
+            string id = jsonObject["msg"]["_id"].ToString();
+            
+                    
 
-            User newUser = new User
-                    {
+            if(type == "create"){ 
+
+
+                var _id = ObjectId.GenerateNewId().ToString();
+         
+                
+                 User newUser = new User
+                    {   
+                        Id = _id,
                         username = username,
                         password = password,
                         email = email,
                         codeRoom = codeRoom
                     };
+            await _userService.CreateAsync(newUser);
+        using (var client = new HttpClient())
+        {
+             var request = new HttpRequestMessage(HttpMethod.Put, $"http://127.0.0.1:9200/users/_doc/{_id}");
+            
+            // Tạo chuỗi JSON với các giá trị biến
+            string jsonBody = $"{{\"username\":\"{username}\",\"password\":\"{password}\",\"email\":\"{email}\",\"codeRoom\":\"{codeRoom}\"}}";
+            
+            request.Content = new StringContent(jsonBody, null, "application/json");
+            
+            var response = await client.SendAsync(request);
+            response.EnsureSuccessStatusCode();
+        }
 
-       if(type == "creat")  await _userService.CreateAsync(newUser);
+
+            Console.WriteLine("create User");
+            }
+             if(type == "update"){
+                    User newUser = new User
+                    {
+                        Id = id,
+                        username = username,
+                        password = password,
+                        email = email,
+                        codeRoom = codeRoom
+                    };
+                    await _userService.UpdateAsync(id,newUser);
+                        using (var client = new HttpClient())
+        {
+             var request = new HttpRequestMessage(HttpMethod.Put, $"http://127.0.0.1:9200/users/_doc/{id}");
+            
+            // Tạo chuỗi JSON với các giá trị biến
+            string jsonBody = $"{{\"username\":\"{username}\",\"password\":\"{password}\",\"email\":\"{email}\",\"codeRoom\":\"{codeRoom}\"}}";
+            
+            request.Content = new StringContent(jsonBody, null, "application/json");
+            
+            var response = await client.SendAsync(request);
+            response.EnsureSuccessStatusCode();
+        }
+                    Console.WriteLine("update User");
+            }
+
+                 if(type == "delete"){
+                    await _userService.RemoveAsync(id);
+
+        using (var client = new HttpClient())
+        {
+             var request = new HttpRequestMessage(HttpMethod.Delete, $"http://127.0.0.1:9200/users/_doc/{id}"); 
+            var response = await client.SendAsync(request);
+            response.EnsureSuccessStatusCode();
+        }
+                    Console.WriteLine("delete User");
+            }
            
-            Console.WriteLine(type);
         };
+
 
         channel.BasicConsume(queue: _rabbitmqSettings.QueueName,
                              autoAck: true,

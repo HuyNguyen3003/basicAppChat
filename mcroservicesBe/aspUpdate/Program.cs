@@ -1,12 +1,17 @@
 
+using Elasticsearch.Net;
+using MongoDB.Driver.Core.Configuration;
 using UserApi.Services;
 using UsersApi.Models;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
 builder.Services.Configure<UserDatabaseSettings>(builder.Configuration.GetSection("MongoDB"));
 builder.Services.Configure<UserRabbitmqSettings>(builder.Configuration.GetSection("RabbitMQ"));
+
+
 
 
 
@@ -17,16 +22,16 @@ builder.Services.AddSingleton<RabbitMQReceiver>();
 
 
 
-
 var app = builder.Build();
 
 
 //mesqueue
-//var usersService = app.Services.GetRequiredService<UsersService>();
- var rabbitServices = app.Services.GetRequiredService<RabbitMQReceiver>();
-
-// var rabbitMQReceiver = new RabbitMQReceiver(rabbitServices,usersService);
+var rabbitServices = app.Services.GetRequiredService<RabbitMQReceiver>();
 rabbitServices.StartListening();
+
+
+
+
 
 
 
