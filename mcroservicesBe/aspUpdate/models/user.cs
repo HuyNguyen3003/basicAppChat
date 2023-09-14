@@ -17,5 +17,6 @@ public class User
 
     public string email { get; set; } = null!;
 
-    public string codeRoom { get; set; } = null!;
+    public string avatar { get; set; } = null!;
+
 }

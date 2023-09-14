@@ -33,13 +33,15 @@
   "include": [
     "next-env.d.ts",
     "**/*.js",
+    "**/*.jsx",
     "**/*.mjs",
     "**/*.ts",
     "**/*.tsx",
     "**/*.json",
     ".contentlayer/generated",
     ".contentlayer/generated/**/*.json",
-    ".next/types/**/*.ts"
+    ".next/types/**/*.ts",
+    "app/projects/appChat/page.jsx"
   ],
   "exclude": ["node_modules"]
 }

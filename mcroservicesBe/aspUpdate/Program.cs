@@ -8,7 +8,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.Configure<UserDatabaseSettings>(builder.Configuration.GetSection("MongoDB"));
+builder.Services.Configure<UserDatabaseSettings>(builder.Configuration.GetSection("USERMongoDB"));
+builder.Services.Configure<MessageDatabaseSettings>(builder.Configuration.GetSection("MSGMongoDB"));
 builder.Services.Configure<UserRabbitmqSettings>(builder.Configuration.GetSection("RabbitMQ"));
 
 
@@ -16,6 +17,7 @@ builder.Services.Configure<UserRabbitmqSettings>(builder.Configuration.GetSectio
 
 
 builder.Services.AddSingleton<UsersService>();
+builder.Services.AddSingleton<MessageService>();
 builder.Services.AddSingleton<RabbitMQReceiver>();
 
 
