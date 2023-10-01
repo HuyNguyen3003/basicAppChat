@@ -44,7 +44,7 @@ Chức năng dự kiến:
 Luồn hoạt động từng service:
 + nextClient: Giao diện
 + expressLogin: Sử lí login,register| khi api được gọi từ client service sẽ get data từ elastichSearch rồi return 'nextClient' {true||false} (login) || send msg {type:...,info...} đến 'aspUpdate' (register)
-+ expressChat: Sử lí các chức năng của app call redis(read||write) data, elastic(only read), send msg {type:...,info...} đến 'aspUpdate' (save infoChat)
++ expressChat: Sử lí các chức năng của app|| call redis(read||write) data, elastic(only read), send msg {type:...,info...} đến 'aspUpdate' (save infoChat)
 + aspUpdate: Sự lí data theo event| Nhận msg từ sercice khác rồi hanele: save data vào mongo(only write), sync data from mongo to elastic, save data(img) google.
 + aspAPI: Quản lí api từ các service
 ------------------------------------
