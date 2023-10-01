@@ -1,0 +1,58 @@
+{
+  "Routes": [
+    {
+      "DownstreamPathTemplate": "/checkserver",
+
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5001
+        }
+      ],
+      "UpstreamPathTemplate": "/apiGetway/login/checkserver",
+      "UpstreamHttpMethod": ["GET"]
+    },
+    {
+      "DownstreamPathTemplate": "/senddata",
+
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5001
+        }
+      ],
+      "UpstreamPathTemplate": "/apiGetway/login/senddata",
+      "UpstreamHttpMethod": ["POST"]
+    },
+
+    {
+      "DownstreamPathTemplate": "/checkserver",
+
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5002
+        }
+      ],
+      "UpstreamPathTemplate": "/apiGetway/chat/checkserver",
+      "UpstreamHttpMethod": ["GET"]
+    },
+
+    {
+      "DownstreamPathTemplate": "/senddata",
+
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5002
+        }
+      ],
+      "UpstreamPathTemplate": "/apiGetway/chat/senddata",
+      "UpstreamHttpMethod": ["POST"]
+    }
+  ]
+}
