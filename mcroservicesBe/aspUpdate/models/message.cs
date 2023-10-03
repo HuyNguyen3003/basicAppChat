@@ -10,12 +10,15 @@ public class Message
     public string? Id { get; set; }
 
     public string? message { get; set; } = null!;
-    public string? users  { get; set; } = null!;
+    public string? users { get; set; } = null!;
 
     public string? senderId { get; set; } = null!;
 
+    public string? nameChat { get; set; } = null!;
 
-    public DateTime? CreatedAt { get; set; }= null!;
- 
+
+
+    public DateTime? CreatedAt { get; set; } = null!;
+
 
 }

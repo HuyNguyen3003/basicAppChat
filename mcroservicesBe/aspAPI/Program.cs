@@ -8,7 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 //1
 builder.Configuration.SetBasePath(builder.Environment.ContentRootPath)
-.AddJsonFile("ocelot.json",optional:false,reloadOnChange:true);
+.AddJsonFile("ocelot.json", optional: false, reloadOnChange: true);
 
 // Add services to the container.
 
@@ -16,27 +16,27 @@ builder.Services.AddControllers();
 
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowSpecificOrigin", builder =>
+    options.AddDefaultPolicy(builder =>
     {
-        builder
-            .WithOrigins("http://localhost") // Địa chỉ gốc được phép truy cập (có thể là địa chỉ của ứng dụng web frontend của bạn)
-            .AllowAnyMethod() // Cho phép tất cả các phương thức HTTP
-            .AllowAnyHeader(); // Cho phép tất cả các tiêu đề HTTP
+        builder.WithOrigins("http://localhost:3000") // Thay đổi URL nguồn tùy theo máy chủ nguồn của bạn.
+               .AllowAnyMethod()
+               .AllowAnyHeader();
     });
 });
+
 
 //2
 builder.Services.AddOcelot();
 var app = builder.Build();
 
-
+//cors
+app.UseCors();
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
 app.MapControllers();
-//cors
-app.UseCors("AllowSpecificOrigin");
+
 //3
 app.UseOcelot().Wait();
 app.Run();

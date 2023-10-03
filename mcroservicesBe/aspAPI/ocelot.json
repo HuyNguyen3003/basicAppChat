@@ -24,7 +24,20 @@
         }
       ],
       "UpstreamPathTemplate": "/apiGetway/login/senddata",
-      "UpstreamHttpMethod": ["POST"]
+      "UpstreamHttpMethod": ["POST", "OPTIONS"]
+    },
+    {
+      "DownstreamPathTemplate": "/readdata",
+
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5001
+        }
+      ],
+      "UpstreamPathTemplate": "/apiGetway/login/readdata",
+      "UpstreamHttpMethod": ["POST", "OPTIONS"]
     },
 
     {
@@ -52,7 +65,7 @@
         }
       ],
       "UpstreamPathTemplate": "/apiGetway/chat/senddata",
-      "UpstreamHttpMethod": ["POST"]
+      "UpstreamHttpMethod": ["POST", "OPTIONS"]
     }
   ]
 }
