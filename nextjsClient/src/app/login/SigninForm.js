@@ -40,8 +40,6 @@ const SigninForm = () => {
     const log = localStorage.getItem("log");
     const name = localStorage.getItem("name");
     const _id = localStorage.getItem("_id");
-    
-
     const date = new Date().getDate();
     const key = process.env.KEY;
     checkKey(log, date, key, name, _id);
@@ -61,6 +59,8 @@ const SigninForm = () => {
   let handleLogin = async () => {
     const id = toast.loading("Please wait...", {
       position: "top-right",
+      isLoading: false,
+      autoClose: 3000,
       hideProgressBar: false,
       closeOnClick: true,
       pauseOnHover: true,
@@ -68,6 +68,8 @@ const SigninForm = () => {
       progress: undefined,
       theme: "light",
     });
+
+  
 
     if (!email || !password) {
       toast.update(id, {
