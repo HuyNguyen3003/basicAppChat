@@ -12,8 +12,8 @@ const SigninForm = () => {
   const [statusK, setstatusK] = useState(0);
   const router = useRouter();
 
-  const checkKey = async (log, date, key,name) => {
-    const passwordMatch = await bcrypt.compare(`${key}/${date}`, `${log}`);
+  const checkKey = async (log, date, key,name,_id) => {
+    const passwordMatch = await bcrypt.compare(`${key}/${date}/${_id}`, `${log}`);
     if (passwordMatch === true) {
       setstatusK(1);
       toast(`Chào: ${name}`, {
@@ -29,7 +29,9 @@ const SigninForm = () => {
       setTimeout(()=>router.push("/appChat"),2000)
       
     } else {
-      localStorage.setItem("infor", "");
+      localStorage.setItem("name", "");
+      localStorage.setItem("_id", "");
+
       localStorage.setItem("log", "");
     }
   };
@@ -37,17 +39,18 @@ const SigninForm = () => {
   useEffect(() => {
     const log = localStorage.getItem("log");
     const name = localStorage.getItem("name");
+    const _id = localStorage.getItem("_id");
     
 
     const date = new Date().getDate();
     const key = process.env.KEY;
-    checkKey(log, date, key, name);
+    checkKey(log, date, key, name, _id);
   }, [statusK]);
 
   let handleLoginSS = async (_id, name) => {
     const date = new Date().getDate();
     const key = process.env.KEY;
-    const hashedPassword = await bcrypt.hash(`${key}/${date}`, 10);
+    const hashedPassword = await bcrypt.hash(`${key}/${date}/${_id}`, 10);
     localStorage.setItem("log", hashedPassword);
     localStorage.setItem("name", name);
     localStorage.setItem("_id", _id);
