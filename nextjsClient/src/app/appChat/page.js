@@ -3,7 +3,7 @@
 import React, { useEffect,useState } from "react";
 import UserChat from "./userChat";
 import { useRouter } from "next/navigation";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import bcrypt from "bcryptjs";
 import SearchMsg from "./SearchMsg";
 import ShowMsg from "./ShowMsg";
@@ -15,11 +15,14 @@ import Picker from "@emoji-mart/react";
 
 
 
+
 export default function page() {
   const router = useRouter();
   const [location, setLocation] = useState(null);
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const [message, setMessage] = useState("");
+  const [base64Image, setBase64Image] = useState(null);
+
 
   
 
@@ -32,11 +35,14 @@ export default function page() {
     
   })
 
-   const handleEmojiSelect = (emoji) => {
+  let handleShowChat = () =>{
+    setShowEmojiPicker(false)
+  }
+
+  const handleEmojiSelect = (emoji) => {
          setMessage(message + '' + emoji.native);
 
-   };
-
+  };
   let sendAddress=async()=>{
   
       const response = await axios.get(
@@ -92,12 +98,42 @@ export default function page() {
       console.log(e);
     }
   };
+
+   const handleFileUpload = (event) => {
+     const file = event.target.files[0];
+
+     if (file) {
+       const reader = new FileReader();
+
+       reader.onload = (e) => {
+         const base64String = e.target.result;
+         setBase64Image(base64String);
+       };
+
+       reader.readAsDataURL(file);
+     }
+   };
+   const handleButtonClick = () => {
+     // Khi người dùng nhấn vào nút
+     const fileInput = document.createElement("input");
+     fileInput.type = "file";
+     fileInput.accept = "image/*";
+     fileInput.onchange = handleFileUpload;
+     fileInput.click();
+   };
+   const sendImage = () =>{
+
+   }
+
   return (
     <main className="flex min-h-screen flex-col ">
       <div className="flex min-h-screen ">
         <div className="w-2/6">
           <div className="flex">
-            <div className="p-2 w-1/5 flex flex-col ">
+            <div
+              className="p-2 w-1/5 flex flex-col"
+              onClick={() => setShowEmojiPicker(false)}
+            >
               <div className="flex-grow">
                 <div className="py-4">Hình cá nhân</div>
                 <div className="py-4">Tin nhắn</div>
@@ -110,7 +146,10 @@ export default function page() {
                 </button>
               </div>
             </div>
-            <div className=" border-l-4 border-blue-500 min-h-screen ">
+            <div
+              className=" border-l-4 border-blue-500 min-h-screen "
+              onClick={() => setShowEmojiPicker(false)}
+            >
               <div className="flex">
                 <div className="p-2">
                   <input className="p-2 " placeholder="Tìm kiếm tin nhắn" />
@@ -143,26 +182,60 @@ export default function page() {
             </div>
           </div>
 
-          <div className="flex-grow min-h-[71%]">
+          <div className="flex-grow min-h-[71%] relative">
             <ShowMsg />
-            <div className="">
-              {showEmojiPicker && (
+
+            {/* done */}
+            {showEmojiPicker && (
+              <div className="absolute bottom-0">
+                <button
+                  className="text-red-500"
+                  onClick={() => setShowEmojiPicker("")}
+                >
+                  x
+                </button>
                 <Picker data={data} onEmojiSelect={handleEmojiSelect} />
-              )}
-            </div>
+              </div>
+            )}
+            {base64Image && (
+              <div className="absolute bottom-0 ">
+                <div className="flex">
+                  <button
+                    className="text-red-500 p-2"
+                    onClick={() => setBase64Image("")}
+                  >
+                    x
+                  </button>
+                  <button onClick={() => sendImage()}>Gửi hình</button>
+                </div>
+                <img
+                  className="max-h-60"
+                  src={base64Image}
+                  alt="Uploaded Image"
+                  style={{ maxWidth: "100%" }}
+                />
+              </div>
+            )}
+            {/* done */}
           </div>
 
           <div>
             <div className="border-t-2 border-blue-500 py-3 flex ">
-              <div className="px-2">gửi img</div>
+              <div className="px-2">
+                <button onClick={handleButtonClick}>Tải ảnh lên</button>
+              </div>
+
+              {/* done */}
               <div className="px-2">
                 <button onClick={() => setShowEmojiPicker(!showEmojiPicker)}>
                   Emoji
                 </button>
               </div>
               <button onClick={() => sendAddress()} className="px-2">
-                gửi địa chỉ
+                Send Address
               </button>
+              {/* done */}
+
               <div className="px-2">đổi hình đoạn chat</div>
             </div>
             <div className=" flex border-t-2 border-blue-500">
