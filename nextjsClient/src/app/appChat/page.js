@@ -3,13 +3,16 @@
 import React, { useEffect,useState } from "react";
 import UserChat from "./userChat";
 import { useRouter } from "next/navigation";
-import { toast } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
+
 import bcrypt from "bcryptjs";
 import SearchMsg from "./SearchMsg";
 import ShowMsg from "./ShowMsg";
 import axios from "axios";
 import data from "@emoji-mart/data";
 import Picker from "@emoji-mart/react";
+import Link from "next/link";
+
 
 
 
@@ -22,6 +25,7 @@ export default function page() {
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const [message, setMessage] = useState("");
   const [base64Image, setBase64Image] = useState(null);
+  
 
 
   
@@ -126,7 +130,7 @@ export default function page() {
    }
 
   return (
-    <main className="flex min-h-screen flex-col ">
+    <main className="flex min-h-screen flex-col cursor-default ">
       <div className="flex min-h-screen ">
         <div className="w-2/6">
           <div className="flex">
@@ -140,7 +144,9 @@ export default function page() {
                 <div className="py-4">Store</div>
               </div>
               <div className="">
-                <div className="py-4">Setting</div>
+                <div className="py-4">
+                  <Link href="/appChat/settingUser">Setting</Link>
+                </div>
                 <button onClick={() => handleLogout()} className="py-4">
                   Đăng xuất
                 </button>
@@ -189,10 +195,10 @@ export default function page() {
             {showEmojiPicker && (
               <div className="absolute bottom-0">
                 <button
-                  className="text-red-500"
+                  className="text-red-500  px-4 ml-2 py-2 rounded-lg bg-blue-500 hover:bg-blue-600 text-white font-semibold"
                   onClick={() => setShowEmojiPicker("")}
                 >
-                  x
+                  Ẩn
                 </button>
                 <Picker data={data} onEmojiSelect={handleEmojiSelect} />
               </div>
@@ -201,12 +207,17 @@ export default function page() {
               <div className="absolute bottom-0 ">
                 <div className="flex">
                   <button
-                    className="text-red-500 p-2"
+                    className="text-red-500  px-4 ml-2 py-2 rounded-lg bg-blue-500 hover:bg-blue-600 text-white font-semibold"
                     onClick={() => setBase64Image("")}
                   >
-                    x
+                    Ẩn
                   </button>
-                  <button onClick={() => sendImage()}>Gửi hình</button>
+                  <button
+                    onClick={() => sendImage()}
+                    className="ml-4 px-4 py-2 rounded-lg bg-blue-500 hover:bg-blue-600 text-white font-semibold"
+                  >
+                    Gửi hình
+                  </button>
                 </div>
                 <img
                   className="max-h-60"
@@ -249,6 +260,7 @@ export default function page() {
           </div>
         </div>
       </div>
+      <ToastContainer />
     </main>
   );
 }
