@@ -32,8 +32,32 @@ let readData = async (req, res) => {
   }
 };
 
+let setCache = async(req,res)=>{
+  try{
+     const data = req.body;
+     const respone = await adminServices.setCache(data);
+     if (respone) return res.json(respone);
+     else return res.json(false);
+
+  }catch(e){
+    console.log(e)
+  }
+}
+let getCache = async (req, res) => {
+  try {
+     const data = req.body;
+     const respone = await adminServices.getCache(data);
+     if (respone) return res.json(respone);
+     else return res.json(false);
+  } catch (e) {
+    console.log(e);
+  }
+};
+
 module.exports = {
   checkserver,
   sendData,
   readData,
+  setCache,
+  getCache
 };

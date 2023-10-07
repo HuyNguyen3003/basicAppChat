@@ -1,5 +1,6 @@
 const { send } = require("./rabbitmq");
 const axios = require("axios");
+const redis = require("../init.redis")
 
 let sendData = async (data) => {
   return new Promise(async (resolve, reject) => {
@@ -83,4 +84,49 @@ let readData = async (data) => {
   });
 };
 
-module.exports = { sendData, readData };
+let setCache = async (data) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const res = await redis.set(data.key, JSON.stringify({number :data.numberMsg,image:data.imageMsg}));
+      resolve(res);
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
+
+let getCache = async (data) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      redis.exists(data.key, async (err, exists) => {
+        if (err) {
+          reject(err);
+          return;
+        }
+
+        if (exists === 1) {
+          // Key tồn tại trong Redis, lấy dữ liệu và parse
+          redis.get(data.key).then((data) => {
+            if (data) {
+              const parsedObject = JSON.parse(data);
+              resolve(parsedObject);
+            } else {
+              console.log("Data in Redis is empty");
+              resolve(null); // Trường hợp dữ liệu trong Redis là rỗng
+            }
+          });
+        } else {
+          console.log("Key not found in Redis");
+          resolve(null); // Trường hợp key không tồn tại trong Redis
+        }
+      });
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
+
+
+
+
+module.exports = { sendData, readData, getCache, setCache };

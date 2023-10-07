@@ -7,6 +7,10 @@ let initWebRoutes = (app) => {
   router.get("/checkserver", userController.checkserver);
   router.post("/senddata", userController.sendData);
   router.post("/readdata", userController.readData);
+  router.post("/setcache", userController.setCache);
+  router.post("/getcache", userController.getCache);
+
+
 
   return app.use("/", router);
 };

@@ -1,0 +1,57 @@
+version: '3'
+services:
+  rabbitmq:
+    image: "rabbitmq:3.12.4-management"
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: your_rabbitmq_user
+      RABBITMQ_DEFAULT_PASS: your_rabbitmq_password
+
+  elasticsearch:
+    image: "docker.elastic.co/elasticsearch/elasticsearch:8.9.1"
+    container_name: elasticsearch
+    environment:
+      - cluster.name=docker-cluster
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - esdata:/usr/share/elasticsearch/data
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+
+  kibana:
+    image: "docker.elastic.co/kibana/kibana:8.9.1"
+    container_name: kibana
+    environment:
+      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+    ports:
+      - "5601:5601"
+
+  redis:
+    image: "redis:7.2"
+    container_name: redis
+    ports:
+      - "6379:6379"
+
+  mongodb:
+    image: "mongo:6.0.5"
+    container_name: mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodata:/data/db
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: your_mongo_user
+      MONGO_INITDB_ROOT_PASSWORD: your_mongo_password
+
+volumes:
+  esdata:
+  mongodata:

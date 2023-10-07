@@ -41,6 +41,34 @@
     },
 
     {
+      "DownstreamPathTemplate": "/getcache",
+
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5001
+        }
+      ],
+      "UpstreamPathTemplate": "/apiGetway/login/getcache",
+      "UpstreamHttpMethod": ["POST", "OPTIONS"]
+    },
+
+    {
+      "DownstreamPathTemplate": "/setcache",
+
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5001
+        }
+      ],
+      "UpstreamPathTemplate": "/apiGetway/login/setcache",
+      "UpstreamHttpMethod": ["POST", "OPTIONS"]
+    },
+
+    {
       "DownstreamPathTemplate": "/checkserver",
 
       "DownstreamScheme": "http",

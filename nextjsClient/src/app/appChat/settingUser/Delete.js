@@ -1,20 +1,23 @@
-import React from 'react'
+"use strict";
+import React from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
+
 export default function Delete() {
 
-  let handleDelete = () =>{
-      const id = toast.loading("Pl,wait..", {
-        position: "top-right",
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
-  }
+  let handleDelete = () => {
+    const id = toast.loading("Pl,wait..", {
+      position: "top-right",
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
+   
+  };
   return (
     <>
       <div className="m-2 text-xl">Xoá thông tin</div>
