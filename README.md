@@ -16,7 +16,7 @@ Mô hình MVC
 + kibana: Giao diện cho elasticSearch
 ----------------------------------
 Các bước để chạy: 
-+ bước 1 cài node:v18.14.2, nextjs v13.4.12, asp v7.0, mongodb(server,compass), redis(services,redisinsght),rabbitmq 3.12.4, elasticSearch v8.9.1, kibana -v8.9.1. (Cài đúng version để đảm bảo ít lỗi có thể sảy ra nhất)
++ bước 1 cài node:v18.14.2, nextjs v13.4.12, asp v7.0, mongodb(server,compass), redis(services,redisinsght),rabbitmq 3.12.4, elasticSearch v8.9.1, kibana -v8.9.1. (Cài đúng version để đảm bảo ít lỗi có thể sảy ra nhất) ( mongodb(server,compass), redis(services,redisinsght),rabbitmq 3.12.4, elasticSearch v8.9.1, kibana -v8.9.1 có thể chạy = file docker-compose )
 + bước 2 đảm các các services trên để đã chạy trên máy.
 + bước 3 clone dự án: mở teminal service nextjs, nodejs dùng lệnh npm i -> npm run dev để cài pakage còn thiếu và chạy dự án trên môi trường dev, với service asp thì dotnet watch
 + bước 4 kiểm tra service đã hoạt động chưa: http://localhost:5000/apiGetway/login/checkserver,http://localhost:5000/apiGetway/chat/checkserver với node, còn next thì check localhost:3000, asp thì xem ở trong mongo đã tự tạo database appChat và có các collection chưa. 127.0.0.1:9200 với elastic, 127.0.0.1:5601 kibana, còn redis thì vào redisinsght add redis db local (port 6379) xem được không.
