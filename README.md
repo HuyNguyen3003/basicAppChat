@@ -54,6 +54,8 @@ Luồn hoạt động từng service:
 + aspUpdate: Sự lí data theo event| Nhận msg từ sercice khác rồi hanele: save data vào mongo(only write), sync data from mongo to elastic, save data(img) google.
 + aspAPI: Quản lí api từ các service
 ------------------------------------
-![image](design.png)
+![image](designPJ.png)
+![image](designDB.png)
+
 
 ------------------
